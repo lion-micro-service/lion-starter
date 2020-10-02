@@ -10,7 +10,6 @@
 	</parent>
 	<artifactId>lion-restful-starter</artifactId>
 	<packaging>jar</packaging>
-
 	<properties>
 		<lion-oauth2-resource-server.version>1.0.0-SNAPSHOT</lion-oauth2-resource-server.version>
 	</properties>
@@ -57,11 +56,12 @@
 			<groupId>org.reflections</groupId>
 			<artifactId>reflections</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.lion</groupId>
-			<artifactId>lion-oauth2-resource-server</artifactId>
-			<version>${lion-oauth2-resource-server.version}</version>
-		</dependency>
+<!--		暂时屏蔽无法解决与lion-oauth2循环引用的问题 在web项目中单独引用-->
+<!--		<dependency>-->
+<!--			<groupId>com.lion</groupId>-->
+<!--			<artifactId>lion-oauth2-resource-server</artifactId>-->
+<!--			<version>${lion-oauth2-resource-server.version}</version>-->
+<!--		</dependency>-->
 <!--		<dependency>-->
 <!--			<groupId>com.taobao.arthas</groupId>-->
 <!--			<artifactId>arthas-spring-boot-starter</artifactId>-->

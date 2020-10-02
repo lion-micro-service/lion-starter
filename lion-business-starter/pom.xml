@@ -10,7 +10,6 @@
 	</parent>
 	<artifactId>lion-business-starter</artifactId>
 	<packaging>jar</packaging>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
