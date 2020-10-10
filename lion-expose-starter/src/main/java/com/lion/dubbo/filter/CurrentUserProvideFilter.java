@@ -10,9 +10,8 @@ import org.apache.dubbo.rpc.*;
  * @author: Mr.Liu
  * @create: 2020-02-17 19:08
  */
-@Activate(group = {CommonConstants.PROVIDER},order = Integer.MIN_VALUE)
+//@Activate(group = {CommonConstants.PROVIDER},order = Integer.MIN_VALUE)
 public class CurrentUserProvideFilter implements Filter {
-
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         if(invocation.getAttachments().containsKey(DubboConstant.USERNAME)){

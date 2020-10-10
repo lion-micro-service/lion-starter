@@ -11,7 +11,7 @@ import org.apache.dubbo.rpc.*;
  * @author: Mr.Liu
  * @create: 2020-02-17 19:08
  */
-@Activate(group = {CommonConstants.CONSUMER},order = Integer.MIN_VALUE)
+//@Activate(group = {CommonConstants.CONSUMER},order = Integer.MIN_VALUE)
 public class CurrentUserConsumerFilter implements Filter {
 
     @Override

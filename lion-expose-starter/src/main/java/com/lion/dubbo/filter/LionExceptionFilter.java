@@ -9,7 +9,7 @@ import org.apache.dubbo.rpc.*;
  * @author: Mr.Liu
  * @create: 2020-02-14 20:51
  */
-@Activate(group = CommonConstants.PROVIDER)
+//@Activate(group = {CommonConstants.PROVIDER,CommonConstants.CONSUMER})
 public class LionExceptionFilter implements Filter {
 
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
