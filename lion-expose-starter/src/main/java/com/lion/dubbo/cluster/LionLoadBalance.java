@@ -3,12 +3,16 @@ package com.lion.dubbo.cluster;
 import com.lion.constant.DubboConstant;
 import com.lion.dubbo.util.ClientRemoteAddressUtil;
 import org.apache.dubbo.common.URL;
+import org.apache.dubbo.common.extension.SPI;
 import org.apache.dubbo.common.utils.CollectionUtils;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcException;
 import org.apache.dubbo.rpc.cluster.LoadBalance;
+import org.apache.dubbo.rpc.cluster.Router;
+import org.apache.dubbo.rpc.cluster.loadbalance.AbstractLoadBalance;
+import org.apache.dubbo.rpc.cluster.loadbalance.RandomLoadBalance;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -19,15 +23,13 @@ import java.util.Random;
  * @author: mr.liu
  * @create: 2020-10-10 15:26
  **/
-public class LionLoadBalance implements LoadBalance {
+@SPI(LionLoadBalance.NAME)
+public class LionLoadBalance extends AbstractLoadBalance {
+
+    public static final String NAME = "lionLoadBalance";
+
     @Override
-    public <T> Invoker<T> select(List<Invoker<T>> invokers, URL url, Invocation invocation) throws RpcException {
-        if (CollectionUtils.isEmpty(invokers)) {
-            return null;
-        }
-        if (invokers.size() == 1) {
-            return invokers.get(0);
-        }
+    protected <T> Invoker<T> doSelect(List<Invoker<T>> invokers, URL url, Invocation invocation) {
         RpcContext rpcContext = RpcContext.getContext();
         Invoker<T> invoker = null;
         String ip = "";
@@ -41,7 +43,7 @@ public class LionLoadBalance implements LoadBalance {
             invocation.setAttachmentIfAbsent(DubboConstant.CLIENT_REMOTE_ADDRESS,ip);
             rpcContext.set(DubboConstant.CLIENT_REMOTE_ADDRESS,ip);
             for (Invoker<T> invoker1 : invokers){
-                if (invoker1.getUrl().getAddress().equals(ip)){
+                if (invoker1.getUrl().getHost().equals(ip)){
                     invoker = invoker1;
                     break;
                 }
@@ -51,4 +53,5 @@ public class LionLoadBalance implements LoadBalance {
         }
         return invoker;
     }
+
 }

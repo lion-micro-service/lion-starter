@@ -10,7 +10,6 @@ import org.apache.dubbo.rpc.*;
  * @author: mr.liu
  * @create: 2020-10-10 14:09
  **/
-@Activate(group = {CommonConstants.PROVIDER},order = Integer.MIN_VALUE)
 public class ExtendDataProvideFiter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {

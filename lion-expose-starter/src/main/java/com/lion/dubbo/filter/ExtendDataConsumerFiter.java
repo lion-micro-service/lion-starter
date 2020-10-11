@@ -11,7 +11,6 @@ import org.apache.dubbo.rpc.*;
  * @author: mr.liu
  * @create: 2020-10-10 14:07
  **/
-@Activate(group = {CommonConstants.CONSUMER},order = Integer.MIN_VALUE)
 public class ExtendDataConsumerFiter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {

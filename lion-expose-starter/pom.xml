@@ -35,11 +35,10 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<includes>
-					<include>**/META-INF/dubbo/org.apache.dubbo.rpc.Filter</include>
+					<include>**</include>
 				</includes>
 				<filtering>true</filtering>
 			</resource>
 		</resources>
 	</build>
-
 </project>
