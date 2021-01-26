@@ -23,7 +23,7 @@ public class ClientRemoteAddressUtil {
      * 获取客户端IP
      * @return
      */
-    private static String getClientRemoteAddress(RpcContext rpcContext, Invocation invocation){
+    public static String getClientRemoteAddress(RpcContext rpcContext, Invocation invocation){
         Thread thread = Thread.currentThread();
         if (thread.getContextClassLoader() instanceof TomcatEmbeddedWebappClassLoader){
             RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();

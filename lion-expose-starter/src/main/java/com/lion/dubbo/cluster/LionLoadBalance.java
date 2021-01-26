@@ -32,13 +32,7 @@ public class LionLoadBalance extends AbstractLoadBalance {
     protected <T> Invoker<T> doSelect(List<Invoker<T>> invokers, URL url, Invocation invocation) {
         RpcContext rpcContext = RpcContext.getContext();
         Invoker<T> invoker = null;
-        String ip = "";
-        if(invocation.getAttachments().containsKey(DubboConstant.CLIENT_REMOTE_ADDRESS)){
-            ip = invocation.getAttachments().get(DubboConstant.CLIENT_REMOTE_ADDRESS);
-        }
-        if (!StringUtils.hasText(ip)){
-            ip = ClientRemoteAddressUtil.getClientRemoteAddress();
-        }
+        String ip = ClientRemoteAddressUtil.getClientRemoteAddress(rpcContext,invocation);
         if (StringUtils.hasText(ip)){
             invocation.setAttachmentIfAbsent(DubboConstant.CLIENT_REMOTE_ADDRESS,ip);
             rpcContext.set(DubboConstant.CLIENT_REMOTE_ADDRESS,ip);
