@@ -5,6 +5,7 @@ import com.lion.utils.CurrentUserUtil;
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
+import org.springframework.util.StringUtils;
 
 /**
  * @description: dubbo传递当前登陆用户
@@ -16,13 +17,18 @@ public class CurrentUserConsumerFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         RpcContext rpcContext = RpcContext.getContext();
-        if(!invocation.getAttachments().containsKey(DubboConstant.USERNAME)){
-            String username = CurrentUserUtil.getCurrentUserUsername();
+        String username = invocation.getAttachments().get(DubboConstant.USERNAME);
+        if(!StringUtils.hasText(username)){
+            username = CurrentUserUtil.getCurrentUserUsername();
+        }
+        if (StringUtils.hasText(username)){
             invocation.setAttachmentIfAbsent(DubboConstant.USERNAME,username);
             rpcContext.set(DubboConstant.USERNAME,username);
+        }else {
+            rpcContext.remove(DubboConstant.USERNAME);
         }
         Result result = invoker.invoke(invocation);
-        rpcContext.remove(DubboConstant.USERNAME);
+
         return result;
     }
 
