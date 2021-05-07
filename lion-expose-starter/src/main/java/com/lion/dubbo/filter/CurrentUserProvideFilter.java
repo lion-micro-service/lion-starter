@@ -17,17 +17,12 @@ public class CurrentUserProvideFilter implements Filter {
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         RpcContext rpcContext = RpcContext.getContext();
         String username = invocation.getAttachments().get(DubboConstant.USERNAME);
-        if(!StringUtils.hasText(username)){
-            username = CurrentUserUtil.getCurrentUserUsername();
-        }
-        if (StringUtils.hasText(username)){
-            invocation.setAttachmentIfAbsent(DubboConstant.USERNAME,username);
+        if(StringUtils.hasText(username)){
             rpcContext.set(DubboConstant.USERNAME,username);
         }else {
             rpcContext.remove(DubboConstant.USERNAME);
         }
         Result result = invoker.invoke(invocation);
-        rpcContext.remove(DubboConstant.USERNAME);
         return result;
     }
 }
