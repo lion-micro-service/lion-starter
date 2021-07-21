@@ -11,6 +11,8 @@
 	<artifactId>lion-restful-starter</artifactId>
 	<packaging>jar</packaging>
 	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<lion-oauth2-resource-server.version>1.0.0-SNAPSHOT</lion-oauth2-resource-server.version>
 	</properties>
 	<dependencies>
