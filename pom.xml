@@ -24,6 +24,28 @@
 	</modules>
 
 	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.lion</groupId>
+				<artifactId>lion-business-starter</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lion</groupId>
+				<artifactId>lion-restful-starter</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lion</groupId>
+				<artifactId>lion-expose-starter</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lion</groupId>
+				<artifactId>lion-expose-run-starter</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+		</dependencies>
 	</dependencyManagement>
 
 	<dependencies>
