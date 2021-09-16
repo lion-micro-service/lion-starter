@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
  * @author: Mr.Liu
  * @create: 2020-02-17 19:08
  */
+@Activate
 public class CurrentUserProvideFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {

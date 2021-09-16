@@ -10,7 +10,7 @@ public class ExtendDataUtil {
     }
     public static void removeAttachment(RpcContext rpcContext, String... keys){
         for (String key : keys){
-            rpcContext.remove(key);
+            rpcContext.removeAttachment(key);
         }
     }
 }

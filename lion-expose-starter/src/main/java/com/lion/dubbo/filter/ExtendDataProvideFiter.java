@@ -13,6 +13,7 @@ import java.util.UUID;
  * @author: mr.liu
  * @create: 2020-10-10 14:09
  **/
+@Activate
 public class ExtendDataProvideFiter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {

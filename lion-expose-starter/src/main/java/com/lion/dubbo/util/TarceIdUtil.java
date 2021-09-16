@@ -21,14 +21,14 @@ public class TarceIdUtil {
         }else {
             if (invocation.getAttachments().containsKey(DubboConstant.TRACE_ID) && Objects.nonNull(invocation.get(DubboConstant.TRACE_ID))) {
                 trackId = (Long) invocation.get(DubboConstant.TRACE_ID);
-            }else if (Objects.nonNull(rpcContext.get(DubboConstant.TRACE_ID))){
-                trackId = (Long) rpcContext.get(DubboConstant.TRACE_ID);
+            }else if (Objects.nonNull(rpcContext.getAttachment(DubboConstant.TRACE_ID))){
+                trackId = Long.valueOf(rpcContext.getAttachment(DubboConstant.TRACE_ID));
             }
         }
         if (Objects.isNull(trackId)){
             trackId = SnowflakeUtil.getId();
         }
         invocation.setAttachmentIfAbsent(DubboConstant.TRACE_ID,trackId);
-        rpcContext.set(DubboConstant.TRACE_ID, trackId);
+        rpcContext.setAttachment(DubboConstant.TRACE_ID, trackId);
     }
 }

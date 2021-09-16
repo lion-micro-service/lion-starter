@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
  * @author: Mr.Liu
  * @create: 2020-02-17 19:08
  */
+@Activate
 public class CurrentUserConsumerFilter implements Filter {
 
     @Override

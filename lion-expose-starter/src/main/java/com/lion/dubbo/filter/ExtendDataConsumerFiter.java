@@ -18,6 +18,7 @@ import java.util.UUID;
  * @author: mr.liu
  * @create: 2020-10-10 14:07
  **/
+@Activate
 public class ExtendDataConsumerFiter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
