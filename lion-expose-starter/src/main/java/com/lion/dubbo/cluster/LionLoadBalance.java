@@ -25,7 +25,7 @@ public class LionLoadBalance extends AbstractLoadBalance {
 
     @Override
     protected <T> Invoker<T> doSelect(List<Invoker<T>> invokers, URL url, Invocation invocation) {
-        RpcContext rpcContext = RpcContext.getServiceContext();
+        RpcContext rpcContext = RpcContext.getContext();
         Invoker<T> invoker = null;
         String ip = ClientRemoteAddressUtil.getClientRemoteAddress(rpcContext,invocation);
         if (StringUtils.hasText(ip)){
