@@ -51,6 +51,6 @@ public class ClientRemoteAddressUtil {
     public static void setClientRemoteAddress(RpcContext rpcContext, Invocation invocation){
         String ip = getClientRemoteAddress(rpcContext, invocation);
         invocation.setAttachmentIfAbsent(DubboConstant.CLIENT_REMOTE_ADDRESS,ip);
-        rpcContext.set(DubboConstant.CLIENT_REMOTE_ADDRESS,ip);
+        rpcContext.setAttachment(DubboConstant.CLIENT_REMOTE_ADDRESS,ip);
     }
 }

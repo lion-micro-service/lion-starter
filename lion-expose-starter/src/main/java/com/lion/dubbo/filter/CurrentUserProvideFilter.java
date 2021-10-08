@@ -16,12 +16,12 @@ import org.springframework.util.StringUtils;
 public class CurrentUserProvideFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        RpcContext rpcContext = RpcContext.getContext();
+        RpcContext rpcContext = RpcContext.getServiceContext();
         String username = invocation.getAttachments().get(DubboConstant.USERNAME);
         if(StringUtils.hasText(username)){
-            rpcContext.set(DubboConstant.USERNAME,username);
+            rpcContext.setAttachment(DubboConstant.USERNAME,username);
         }else {
-            rpcContext.remove(DubboConstant.USERNAME);
+            rpcContext.removeAttachment(DubboConstant.USERNAME);
         }
         Result result = invoker.invoke(invocation);
         return result;

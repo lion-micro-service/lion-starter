@@ -22,7 +22,7 @@ import java.util.UUID;
 public class ExtendDataConsumerFiter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        RpcContext rpcContext = RpcContext.getContext();
+        RpcContext rpcContext = RpcContext.getServiceContext();
         ExtendDataUtil.setExtendData(rpcContext,invocation);
         Result result = invoker.invoke(invocation);
         ExtendDataUtil.removeAttachment(rpcContext,DubboConstant.CLIENT_REMOTE_ADDRESS,DubboConstant.TRACE_ID);

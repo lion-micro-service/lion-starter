@@ -17,16 +17,16 @@ public class CurrentUserConsumerFilter implements Filter {
 
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        RpcContext rpcContext = RpcContext.getContext();
+        RpcContext rpcContext = RpcContext.getServiceContext();
         String username = invocation.getAttachments().get(DubboConstant.USERNAME);
         if(!StringUtils.hasText(username)){
             username = CurrentUserUtil.getCurrentUserUsername();
         }
         if (StringUtils.hasText(username)){
             invocation.setAttachmentIfAbsent(DubboConstant.USERNAME,username);
-            rpcContext.set(DubboConstant.USERNAME,username);
+            rpcContext.setAttachment(DubboConstant.USERNAME,username);
         }else {
-            rpcContext.remove(DubboConstant.USERNAME);
+            rpcContext.removeAttachment(DubboConstant.USERNAME);
         }
         Result result = invoker.invoke(invocation);
 
