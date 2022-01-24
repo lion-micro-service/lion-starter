@@ -17,6 +17,7 @@
 		<java.version>17</java.version>
 		<lion-core.version>1.0.0-SNAPSHOT</lion-core.version>
 	</properties>
+
 	<modules>
 		<module>lion-business-starter</module>
 		<module>lion-restful-starter</module>
