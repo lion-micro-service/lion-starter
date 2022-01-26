@@ -38,7 +38,7 @@ public class LionLoadBalance extends AbstractLoadBalance {
                 }
             }
         }else {
-            invoker = invokers.get(new Random().nextInt(invokers.size()-1)%invokers.size()-1);
+            invoker = invokers.get(new Random().nextInt(invokers.size()));
         }
         return invoker;
     }

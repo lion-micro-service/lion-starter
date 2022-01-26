@@ -21,7 +21,7 @@ public class CurrentUserProvideFilter implements Filter {
         if(StringUtils.hasText(username)){
             rpcContext.setAttachment(DubboConstant.USERNAME,username);
         }else {
-            rpcContext.removeAttachment(DubboConstant.USERNAME);
+//            rpcContext.removeAttachment(DubboConstant.USERNAME);
         }
         Result result = invoker.invoke(invocation);
         return result;

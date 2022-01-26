@@ -20,7 +20,7 @@ public class ExtendDataProvideFiter implements Filter {
         RpcContext rpcContext = RpcContext.getServiceContext();
         ExtendDataUtil.setExtendData(rpcContext,invocation);
         Result result = invoker.invoke(invocation);
-        ExtendDataUtil.removeAttachment(rpcContext,DubboConstant.CLIENT_REMOTE_ADDRESS,DubboConstant.TRACE_ID);
+//        ExtendDataUtil.removeAttachment(rpcContext,DubboConstant.CLIENT_REMOTE_ADDRESS,DubboConstant.TRACE_ID);
         return result;
     }
 }

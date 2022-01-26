@@ -28,12 +28,12 @@ public class ClientRemoteAddressUtil {
         if (thread.getContextClassLoader() instanceof TomcatEmbeddedWebappClassLoader){
             RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = ((ServletRequestAttributes)requestAttributes).getRequest();
-            return request.getRemoteAddr();
+            return request.getHeader("X-Real-IP");
         }else {
             String ip = null;
             if (invocation.getAttachments().containsKey(DubboConstant.CLIENT_REMOTE_ADDRESS) && Objects.nonNull(invocation.get(DubboConstant.CLIENT_REMOTE_ADDRESS))) {
                 ip = String.valueOf(invocation.get(DubboConstant.CLIENT_REMOTE_ADDRESS));
-            }else if (Objects.nonNull(rpcContext.get(DubboConstant.CLIENT_REMOTE_ADDRESS))){
+            }else if (Objects.nonNull(rpcContext.getAttachment(DubboConstant.CLIENT_REMOTE_ADDRESS))){
                 ip = String.valueOf(invocation.get(DubboConstant.CLIENT_REMOTE_ADDRESS));
             }
             if (StringUtils.hasText(ip)){
