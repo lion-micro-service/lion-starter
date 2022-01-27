@@ -2,6 +2,7 @@ package com.lion.dubbo.util;
 
 import com.lion.constant.DubboConstant;
 import org.apache.dubbo.rpc.Invocation;
+import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.boot.web.embedded.tomcat.TomcatEmbeddedWebappClassLoader;
 import org.springframework.util.StringUtils;
@@ -10,6 +11,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -19,38 +21,47 @@ import java.util.Objects;
  **/
 public class ClientRemoteAddressUtil {
 
+    private static ThreadLocal<String> threadLocal = new ThreadLocal<>();
+
     /**
      * 获取客户端IP
      * @return
      */
-    public static String getClientRemoteAddress(RpcContext rpcContext, Invocation invocation){
-        Thread thread = Thread.currentThread();
-        if (thread.getContextClassLoader() instanceof TomcatEmbeddedWebappClassLoader){
+    public static String getClientRemoteAddress(){
+        String ip = null;
+        if (Objects.isNull(threadLocal.get())){
             RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-            HttpServletRequest request = ((ServletRequestAttributes)requestAttributes).getRequest();
-            return request.getHeader("X-Real-IP");
-        }else {
-            String ip = null;
-            if (invocation.getAttachments().containsKey(DubboConstant.CLIENT_REMOTE_ADDRESS) && Objects.nonNull(invocation.get(DubboConstant.CLIENT_REMOTE_ADDRESS))) {
-                ip = String.valueOf(invocation.get(DubboConstant.CLIENT_REMOTE_ADDRESS));
-            }else if (Objects.nonNull(rpcContext.getAttachment(DubboConstant.CLIENT_REMOTE_ADDRESS))){
-                ip = String.valueOf(invocation.get(DubboConstant.CLIENT_REMOTE_ADDRESS));
-            }
-            if (StringUtils.hasText(ip)){
-                return ip;
+            if (Objects.nonNull(requestAttributes)) {
+                HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+                if (Objects.nonNull(request)) {
+                    ip = request.getHeader("X-Real-IP");
+                    if (!StringUtils.hasText(ip)) {
+                        ip = request.getRemoteAddr();
+                    }
+                    threadLocal.set(ip);
+                }
             }
         }
-        return "";
+        if (!StringUtils.hasText(ip)) {
+            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.CLIENT_REMOTE_ADDRESS);
+            if (Objects.nonNull(obj)) {
+                ip = String.valueOf(obj);
+                threadLocal.set(ip);
+            }
+        }
+        if (!StringUtils.hasText(ip)){
+            ip = threadLocal.get();
+        }
+        return ip;
     }
 
     /**
      * 设置客户端ip到调用扩展参数
-     * @param rpcContext
-     * @param invocation
      */
-    public static void setClientRemoteAddress(RpcContext rpcContext, Invocation invocation){
-        String ip = getClientRemoteAddress(rpcContext, invocation);
-        invocation.setAttachmentIfAbsent(DubboConstant.CLIENT_REMOTE_ADDRESS,ip);
-        rpcContext.setAttachment(DubboConstant.CLIENT_REMOTE_ADDRESS,ip);
+    public static void setClientRemoteAddress(){
+        String ip = getClientRemoteAddress();
+        if (StringUtils.hasText(ip)) {
+            RpcContext.getServiceContext().setAttachment(DubboConstant.CLIENT_REMOTE_ADDRESS,ip);
+        }
     }
 }

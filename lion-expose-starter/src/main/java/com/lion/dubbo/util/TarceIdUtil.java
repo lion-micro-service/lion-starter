@@ -6,6 +6,7 @@ import com.lion.utils.id.SnowflakeUtil;
 import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.boot.web.embedded.tomcat.TomcatEmbeddedWebappClassLoader;
+import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 
@@ -13,22 +14,26 @@ import java.util.Objects;
  * 设置调用链id
  */
 public class TarceIdUtil {
-    public static void setTarceId(RpcContext rpcContext, Invocation invocation){
-        Thread thread = Thread.currentThread();
+
+    private static ThreadLocal<Long> threadLocal = new ThreadLocal<>();
+
+    public static void setTarceId(){
         Long trackId = null;
-        if (thread.getContextClassLoader() instanceof TomcatEmbeddedWebappClassLoader){
+        if (Objects.isNull(threadLocal.get())) {
             trackId = SystemLogDataUtil.get().getTrackId();
-        }else {
-            if (invocation.getAttachments().containsKey(DubboConstant.TRACE_ID) && Objects.nonNull(invocation.get(DubboConstant.TRACE_ID))) {
-                trackId = (Long) invocation.get(DubboConstant.TRACE_ID);
-            }else if (Objects.nonNull(rpcContext.getAttachment(DubboConstant.TRACE_ID))){
-                trackId = Long.valueOf(rpcContext.getAttachment(DubboConstant.TRACE_ID));
+        }
+        if (Objects.isNull(trackId)) {
+            Object obj = RpcContext.getServiceContext().getObjectAttachment(DubboConstant.TRACE_ID);
+            if (Objects.nonNull(obj) && obj instanceof Long) {
+                trackId = Long.valueOf(String.valueOf(obj));
             }
         }
-        if (Objects.isNull(trackId)){
-            trackId = SnowflakeUtil.getId();
+        if (Objects.isNull(trackId)) {
+            trackId = threadLocal.get();
         }
-        invocation.setAttachmentIfAbsent(DubboConstant.TRACE_ID,trackId);
-        rpcContext.setAttachment(DubboConstant.TRACE_ID, trackId);
+        if (Objects.nonNull(trackId)) {
+            threadLocal.set(trackId);
+            RpcContext.getServiceContext().setObjectAttachment(DubboConstant.TRACE_ID,trackId);
+        }
     }
 }

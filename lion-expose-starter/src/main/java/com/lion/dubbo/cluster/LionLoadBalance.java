@@ -8,9 +8,11 @@ import org.apache.dubbo.rpc.Invocation;
 import org.apache.dubbo.rpc.Invoker;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.cluster.loadbalance.AbstractLoadBalance;
+import org.apache.dubbo.rpc.cluster.loadbalance.RandomLoadBalance;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -25,20 +27,18 @@ public class LionLoadBalance extends AbstractLoadBalance {
 
     @Override
     protected <T> Invoker<T> doSelect(List<Invoker<T>> invokers, URL url, Invocation invocation) {
-        RpcContext rpcContext = RpcContext.getServiceContext();
         Invoker<T> invoker = null;
-        String ip = ClientRemoteAddressUtil.getClientRemoteAddress(rpcContext,invocation);
+        String ip = ClientRemoteAddressUtil.getClientRemoteAddress();
         if (StringUtils.hasText(ip)){
-            invocation.setAttachmentIfAbsent(DubboConstant.CLIENT_REMOTE_ADDRESS,ip);
-            rpcContext.setAttachment(DubboConstant.CLIENT_REMOTE_ADDRESS,ip);
             for (Invoker<T> invoker1 : invokers){
                 if (invoker1.getUrl().getHost().equals(ip)){
                     invoker = invoker1;
                     break;
                 }
             }
-        }else {
-            invoker = invokers.get(new Random().nextInt(invokers.size()));
+        }
+        if (Objects.isNull(invoker)){
+            invoker = invokers.get(new Random().nextInt(invokers.size()-1));
         }
         return invoker;
     }
