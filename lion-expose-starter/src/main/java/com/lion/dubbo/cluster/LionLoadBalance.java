@@ -2,6 +2,7 @@ package com.lion.dubbo.cluster;
 
 import com.lion.constant.DubboConstant;
 import com.lion.dubbo.util.ClientRemoteAddressUtil;
+import com.lion.utils.SpringContextUtil;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.SPI;
 import org.apache.dubbo.rpc.Invocation;
@@ -25,6 +26,8 @@ public class LionLoadBalance extends AbstractLoadBalance {
 
     public static final String NAME = "lionLoadBalance";
 
+    private static volatile LionLoadBalanceMetadate lionLoadBalanceMetadate;
+
     @Override
     protected <T> Invoker<T> doSelect(List<Invoker<T>> invokers, URL url, Invocation invocation) {
         Invoker<T> invoker = null;
@@ -41,6 +44,17 @@ public class LionLoadBalance extends AbstractLoadBalance {
             invoker = invokers.get(new Random().nextInt(invokers.size()-1));
         }
         return invoker;
+    }
+
+    private LionLoadBalanceMetadate getLionLoadBalanceMetadate(){
+        synchronized (LionLoadBalance.class){
+            if (Objects.isNull(lionLoadBalanceMetadate)){
+                synchronized (LionLoadBalance.class) {
+                    lionLoadBalanceMetadate = (LionLoadBalanceMetadate) SpringContextUtil.getBean("lionLoadBalanceMetadate");
+                }
+            }
+        }
+        return lionLoadBalanceMetadate;
     }
 
 }
