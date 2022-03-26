@@ -8,4 +8,8 @@ public class LionLoadBalanceMetadate {
 
     @Value("${dubbo.development-ip:''}")
     private String developmentIp;
+
+    public String getDevelopmentIp() {
+        return developmentIp;
+    }
 }

@@ -41,6 +41,14 @@ public class LionLoadBalance extends AbstractLoadBalance {
             }
         }
         if (Objects.isNull(invoker)){
+            for (Invoker<T> invoker1 : invokers){
+                if (invoker1.getUrl().getHost().equals(getLionLoadBalanceMetadate().getDevelopmentIp())){
+                    invoker = invoker1;
+                    break;
+                }
+            }
+        }
+        if (Objects.isNull(invoker)){
             invoker = invokers.get(new Random().nextInt(invokers.size()-1));
         }
         return invoker;
