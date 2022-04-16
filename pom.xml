@@ -21,9 +21,9 @@
 
 	<modules>
 		<module>lion-business-starter</module>
-		<module>lion-restful-starter</module>
-		<module>lion-expose-starter</module>
-		<module>lion-expose-run-starter</module>
+		<module>lion-expose-impl-starter</module>
+		<module>lion-interface-expose-starter</module>
+		<module>lion-serve-starter</module>
 	</modules>
 
 	<dependencyManagement>
@@ -35,17 +35,17 @@
 			</dependency>
 			<dependency>
 				<groupId>com.lion</groupId>
-				<artifactId>lion-restful-starter</artifactId>
+				<artifactId>lion-serve-starter</artifactId>
 				<version>${project.parent.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lion</groupId>
-				<artifactId>lion-expose-starter</artifactId>
+				<artifactId>lion-interface-expose-starter</artifactId>
 				<version>${project.parent.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lion</groupId>
-				<artifactId>lion-expose-run-starter</artifactId>
+				<artifactId>lion-expose-impl-starter</artifactId>
 				<version>${project.parent.version}</version>
 			</dependency>
 		</dependencies>
