@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LionLoadBalanceMetadate {
 
-    @Value("${dubbo.development-ip:''}")
+    @Value("${dubbo.development_ip:''}")
     private String developmentIp;
 
     public String getDevelopmentIp() {
