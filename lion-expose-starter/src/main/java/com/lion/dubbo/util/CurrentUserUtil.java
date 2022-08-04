@@ -33,4 +33,8 @@ public class CurrentUserUtil {
             RpcContext.getServiceContext().setAttachment(DubboConstant.USERNAME,username);
         }
     }
+
+    public static void cleanThreadLocal(){
+        threadLocal.remove();
+    }
 }
