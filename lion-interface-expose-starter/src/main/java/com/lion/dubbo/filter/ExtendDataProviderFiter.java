@@ -11,7 +11,7 @@ import org.apache.dubbo.rpc.*;
  * @create: 2020-10-10 14:07
  **/
 @Activate
-public class ExtendDataConsumerFiter implements Filter {
+public class ExtendDataProviderFiter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         ExtendDataUtil.setExtendData();
