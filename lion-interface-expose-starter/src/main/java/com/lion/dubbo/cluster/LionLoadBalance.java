@@ -3,6 +3,7 @@ package com.lion.dubbo.cluster;
 import com.lion.constant.DubboConstant;
 import com.lion.dubbo.util.ClientRemoteAddressUtil;
 import com.lion.utils.SpringContextUtil;
+import lombok.extern.log4j.Log4j2;
 import org.apache.dubbo.common.URL;
 import org.apache.dubbo.common.extension.SPI;
 import org.apache.dubbo.rpc.Invocation;
@@ -22,6 +23,7 @@ import java.util.Random;
  * @create: 2020-10-10 15:26
  **/
 @SPI(LionLoadBalance.NAME)
+@Log4j2
 public class LionLoadBalance extends AbstractLoadBalance {
 
     public static final String NAME = "lionLoadBalance";
@@ -30,28 +32,20 @@ public class LionLoadBalance extends AbstractLoadBalance {
 
     @Override
     protected <T> Invoker<T> doSelect(List<Invoker<T>> invokers, URL url, Invocation invocation) {
-        Invoker<T> invoker = null;
         String ip = ClientRemoteAddressUtil.getClientRemoteAddress();
         if (StringUtils.hasText(ip)){
             for (Invoker<T> invoker1 : invokers){
                 if (invoker1.getUrl().getHost().equals(ip)){
-                    invoker = invoker1;
-                    break;
+                    return invoker1;
                 }
             }
         }
-        if (Objects.isNull(invoker)){
-            for (Invoker<T> invoker1 : invokers){
-                if (invoker1.getUrl().getHost().equals(getLionLoadBalanceMetadate().getDevelopmentIp())){
-                    invoker = invoker1;
-                    break;
-                }
+        for (Invoker<T> invoker1 : invokers){
+            if (invoker1.getUrl().getHost().equals(getLionLoadBalanceMetadate().getDevelopmentIp())){
+                return invoker1;
             }
         }
-        if (Objects.isNull(invoker)){
-            invoker = invokers.get(new Random().nextInt(invokers.size()-1));
-        }
-        return invoker;
+        return invokers.get(new Random().nextInt(invokers.size()-1));
     }
 
     private LionLoadBalanceMetadate getLionLoadBalanceMetadate(){
