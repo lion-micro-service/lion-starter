@@ -64,4 +64,8 @@ public class ClientRemoteAddressUtil {
             RpcContext.getServiceContext().setAttachment(DubboConstant.CLIENT_REMOTE_ADDRESS,ip);
         }
     }
+
+    public static void cleanThreadLocal(){
+        threadLocal.remove();
+    }
 }
