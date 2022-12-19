@@ -34,7 +34,7 @@ public class ClientRemoteAddressUtil {
             if (Objects.nonNull(requestAttributes)) {
                 HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
                 if (Objects.nonNull(request)) {
-                    ip = request.getHeader("request_host");
+                    ip = request.getHeader("requestHost");
                     if (!StringUtils.hasText(ip)) {
                         ip = request.getHeader("X-Real-IP");
                     }
