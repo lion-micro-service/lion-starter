@@ -105,10 +105,10 @@
 			<version>${lion-oauth2-resource-config.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.taobao.arthas</groupId>
-			<artifactId>arthas-spring-boot-starter</artifactId>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.taobao.arthas</groupId>-->
+<!--			<artifactId>arthas-spring-boot-starter</artifactId>-->
+<!--		</dependency>-->
 	</dependencies>
 
 </project>
