@@ -42,8 +42,10 @@ public class LionLoadBalance extends AbstractLoadBalance {
         }
         String developmentIpRange = getLionLoadBalanceMetadate().getDevelopmentIpRange();
         String[] ips = null;
-        if (Objects.nonNull(developmentIpRange) && developmentIpRange.indexOf("-")>-1) {
-            ips = developmentIpRange.split("-");
+        if (Objects.nonNull(developmentIpRange) ) {
+            if ( developmentIpRange.indexOf("-")>-1) {
+                ips = developmentIpRange.split("-");
+            }
         }
         if (Objects.nonNull(developmentIpRange) ) {
             for (Invoker<T> invoker1 : invokers) {
