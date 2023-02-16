@@ -15,6 +15,8 @@ public class CurrentTenantIdUtil {
 
     public static ThreadLocal<Long> threadLocal = new ThreadLocal<>();
 
+    public static ThreadLocal<Boolean> isGetTenantId = new ThreadLocal<>();
+
     /**
      * 获取租户id
      * @return
@@ -27,10 +29,13 @@ public class CurrentTenantIdUtil {
             if(Objects.nonNull(CurrentUserUtil.tenant) && Objects.nonNull(CurrentUserUtil.tenant.get())){
                 tenantId = CurrentUserUtil.tenant.get();
             }
-            if(Objects.isNull(tenantId)){
+            if(Objects.isNull(tenantId) && (Objects.isNull(isGetTenantId) || Objects.equals(false,isGetTenantId.get()))){
                 tenantId = CurrentUserUtil.getCurrentUserTenantId(true);
+                isGetTenantId.set(true);
             }
-            threadLocal.set(tenantId);
+            if (Objects.nonNull(tenantId)) {
+                threadLocal.set(tenantId);
+            }
             return tenantId;
         }
     }
