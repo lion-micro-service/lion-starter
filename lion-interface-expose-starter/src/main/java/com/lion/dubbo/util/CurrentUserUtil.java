@@ -27,10 +27,12 @@ public class CurrentUserUtil {
     /**
      * 设置当前登录用户
      */
-    public static void setCurrentUser(){
-        String username = getCurrentUser();
+    public static void setCurrentUser(String username){
+        if (!StringUtils.hasText(username)) {
+            username = getCurrentUser();
+        }
         if (StringUtils.hasText(username)) {
-            RpcContext.getServiceContext().setAttachment(DubboConstant.USERNAME,username);
+            RpcContext.getServiceContext().setObjectAttachment(DubboConstant.USERNAME,username);
         }
     }
 

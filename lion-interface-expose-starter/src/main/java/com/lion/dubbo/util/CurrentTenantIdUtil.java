@@ -29,9 +29,18 @@ public class CurrentTenantIdUtil {
             if(Objects.nonNull(CurrentUserUtil.tenant) && Objects.nonNull(CurrentUserUtil.tenant.get())){
                 tenantId = CurrentUserUtil.tenant.get();
             }
-            if(Objects.isNull(tenantId) && (Objects.isNull(isGetTenantId) || Objects.equals(false,isGetTenantId.get()))){
+            if(Objects.isNull(tenantId) ){
+                RpcContext context = RpcContext.getServiceContext();
+                Object obj = context.getObjectAttachment(DubboConstant.TENANT_ID);
+                if (Objects.nonNull(obj)) {
+                    tenantId = (Long)obj;
+                    threadLocal.set(tenantId);
+                }
+                return tenantId;
+            }
+            if(Objects.isNull(tenantId) ){
                 tenantId = CurrentUserUtil.getCurrentUserTenantId(true);
-                isGetTenantId.set(true);
+//                isGetTenantId.set(true);
             }
             if (Objects.nonNull(tenantId)) {
                 threadLocal.set(tenantId);
@@ -40,10 +49,13 @@ public class CurrentTenantIdUtil {
         }
     }
 
-    public static void setTenantId(){
-        Long tenantId = getTenantId();
+    public static void setTenantId(Long tenantId){
+        if (Objects.isNull(tenantId)) {
+            tenantId = getTenantId();
+        }
         if(Objects.nonNull(tenantId)){
-            RpcContext.getServiceContext().setAttachment(DubboConstant.TENANT_ID,tenantId);
+            threadLocal.set((Long)tenantId);
+            RpcContext.getServiceContext().setObjectAttachment(DubboConstant.TENANT_ID,(Long)tenantId);
         }
     }
 

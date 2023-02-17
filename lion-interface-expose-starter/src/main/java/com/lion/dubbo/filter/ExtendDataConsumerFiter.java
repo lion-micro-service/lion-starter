@@ -15,7 +15,7 @@ import org.apache.dubbo.rpc.*;
 public class ExtendDataConsumerFiter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        ExtendDataUtil.setExtendData();
+        ExtendDataUtil.setExtendData(invocation);
         Result result = invoker.invoke(invocation);
         RpcContext.getServiceContext().clearAttachments();
         CurrentUserUtil.cleanThreadLocal();
