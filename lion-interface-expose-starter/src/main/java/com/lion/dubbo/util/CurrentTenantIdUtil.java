@@ -29,18 +29,20 @@ public class CurrentTenantIdUtil {
             if(Objects.nonNull(CurrentUserUtil.tenant) && Objects.nonNull(CurrentUserUtil.tenant.get())){
                 tenantId = CurrentUserUtil.tenant.get();
             }
+
             if(Objects.isNull(tenantId) ){
                 RpcContext context = RpcContext.getServiceContext();
                 Object obj = context.getObjectAttachment(DubboConstant.TENANT_ID);
                 if (Objects.nonNull(obj)) {
                     tenantId = (Long)obj;
                     threadLocal.set(tenantId);
+                    return tenantId;
                 }
-                return tenantId;
+
             }
-            if(Objects.isNull(tenantId) ){
+            if(Objects.isNull(tenantId) && (Objects.isNull(isGetTenantId.get()) || Objects.equals(false,isGetTenantId.get()))){
                 tenantId = CurrentUserUtil.getCurrentUserTenantId(true);
-//                isGetTenantId.set(true);
+                isGetTenantId.set(true);
             }
             if (Objects.nonNull(tenantId)) {
                 threadLocal.set(tenantId);
