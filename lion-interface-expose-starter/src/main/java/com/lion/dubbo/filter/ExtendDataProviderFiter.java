@@ -22,6 +22,4 @@ public class ExtendDataProviderFiter implements Filter {
         CurrentTenantIdUtil.cleanThreadLocal();
         return result;
     }
-
-
 }
