@@ -1,5 +1,7 @@
 package com.lion.dubbo.filter;
 
+import com.lion.dubbo.util.CurrentTenantIdUtil;
+import com.lion.dubbo.util.CurrentUserUtil;
 import com.lion.dubbo.util.ExtendDataUtil;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
@@ -15,9 +17,9 @@ public class ExtendDataProviderFiter implements Filter {
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         ExtendDataUtil.setExtendData(invocation);
         Result result = invoker.invoke(invocation);
-//        RpcContext.getServiceContext().clearAttachments();
-//        CurrentUserUtil.cleanThreadLocal();
-//        CurrentTenantIdUtil.cleanThreadLocal();
+        RpcContext.getServiceContext().clearAttachments();
+        CurrentUserUtil.cleanThreadLocal();
+        CurrentTenantIdUtil.cleanThreadLocal();
         return result;
     }
 }
