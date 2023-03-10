@@ -58,6 +58,7 @@ public class CurrentTenantIdUtil {
         if(Objects.nonNull(tenantId)){
             threadLocal.set((Long)tenantId);
             RpcContext.getServiceContext().setObjectAttachment(DubboConstant.TENANT_ID,(Long)tenantId);
+            com.lion.utils.CurrentUserUtil.tenant.set((Long) tenantId);
         }
     }
 
