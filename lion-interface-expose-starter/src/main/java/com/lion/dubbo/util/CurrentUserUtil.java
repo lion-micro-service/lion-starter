@@ -36,6 +36,7 @@ public class CurrentUserUtil {
         }
     }
 
+
     public static void cleanThreadLocal(){
         threadLocal.remove();
     }
