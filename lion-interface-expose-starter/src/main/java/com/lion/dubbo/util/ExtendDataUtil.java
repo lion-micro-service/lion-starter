@@ -18,10 +18,10 @@ public class ExtendDataUtil {
             tenantId =  invocation.getObjectAttachments().get(DubboConstant.TENANT_ID);
         }
         if (Objects.isNull(tenantId)) {
-            CurrentTenantIdUtil.setTenantId((Long) tenantId);
+            tenantId =  com.lion.utils.CurrentUserUtil.getCurrentUserTenantId();
         }
-        if(Objects.nonNull(tenantId)){
-            com.lion.utils.CurrentUserUtil.tenant.set((Long) tenantId);
+        if (Objects.nonNull(tenantId)) {
+            CurrentTenantIdUtil.setTenantId((Long) tenantId);
         }
 //        TarceIdUtil.setTarceId();
     }
