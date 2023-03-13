@@ -9,9 +9,7 @@ public class ExtendDataUtil {
     public static void setExtendData(Invocation invocation){
         ClientRemoteAddressUtil.setClientRemoteAddress();
         Object username = invocation.getObjectAttachments().get(DubboConstant.USERNAME);
-        if (Objects.nonNull(username)) {
-            CurrentUserUtil.setCurrentUser((String) username);
-        }
+        CurrentUserUtil.setCurrentUser((String) username);
 
         Object tenantId = com.lion.utils.CurrentUserUtil.tenant.get();
         if (Objects.isNull(tenantId)) {
