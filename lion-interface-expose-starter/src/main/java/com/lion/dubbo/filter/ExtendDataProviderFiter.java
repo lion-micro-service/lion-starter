@@ -18,6 +18,10 @@ public class ExtendDataProviderFiter implements Filter {
         ExtendDataUtil.setExtendData(invocation);
         Result result = invoker.invoke(invocation);
         RpcContext.getServiceContext().clearAttachments();
+        RpcContext.getServerContext().clearAttachments();
+        RpcContext.getCurrentServiceContext().clearAttachments();
+        com.lion.utils.CurrentUserUtil.tenant.remove();
+        com.lion.utils.CurrentUserUtil.usernameThreadLocal.remove();
         CurrentUserUtil.cleanThreadLocal();
         CurrentTenantIdUtil.cleanThreadLocal();
         return result;
