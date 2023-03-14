@@ -64,6 +64,7 @@ public class CurrentTenantIdUtil {
 
     public static void cleanThreadLocal(){
         threadLocal.remove();
+        isGetTenantId.remove();
     }
 
 }
